@@ -1,6 +1,6 @@
 {
     "name": "chevere/sql2p",
-    "description": "A chevere sql2p package",
+    "description": "Generates Parameter(s) for MySQL schemas",
     "homepage": "https://chevere.org",
     "type": "library",
     "license": "Apache-2.0",

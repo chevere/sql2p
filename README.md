@@ -20,7 +20,7 @@
 
 ## Summary
 
-SQL2P generates [Parameters](https://chevere.org/library/parameter) for MySQL schemas.
+SQL2P generates [Parameter(s)](https://chevere.org/library/parameter) for MySQL schemas.
 
 From a `CREATE TABLE` statement like this:
 
