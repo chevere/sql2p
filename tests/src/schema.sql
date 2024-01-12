@@ -15,6 +15,7 @@ CREATE TABLE IF NOT EXISTS `company_employee` (
     `comments_made_total` INT NOT NULL DEFAULT 0,
     `login_method` ENUM('email', 'badge') NULL DEFAULT NULL,
     `email` VARCHAR(255) NULL DEFAULT NULL,
-    `deleted_at` TIMESTAMP NULL DEFAULT NULL
+    `hours_total` DECIMAL(19,4) GENERATED ALWAYS AS (seconds_total/3600),
+    `deleted_at` TIMESTAMP NULL DEFAULT NULL,
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

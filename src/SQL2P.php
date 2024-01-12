@@ -46,7 +46,7 @@ final class SQL2P implements Countable
     public const HEADER = <<<'PHP'
     <?php
 
-    %HEAD%
+    %HEADER%
 
     use Chevere\Parameter\Interfaces\ArrayParameterInterface;
     use function Chevere\Parameter\arrayp;
@@ -66,19 +66,23 @@ final class SQL2P implements Countable
 
     private int $count = 0;
 
+    /**
+     * @param string $sql SQL to parse containing CREATE TABLE statements
+     * @param string $header Header to use after the opening PHP tag `<?php`
+     */
     public function __construct(
         string $sql,
-        private WriterInterface $writer,
-        private string $head = '',
+        private WriterInterface $output,
+        private string $header = '',
     ) {
-        $header = str_replace('%HEAD%', $this->head, self::HEADER);
-        $this->writer->write($header);
+        $header = str_replace('%HEADER%', $this->header, self::HEADER);
+        $this->output->write($header);
         $parser = new SQLParser();
         $tables = $parser->parse($sql);
         foreach ($tables as $table) {
             $this->writeTable($table);
         }
-        $this->writer->write(
+        $this->output->write(
             <<<PHP
 
             // @codeCoverageIgnoreEnd
@@ -97,7 +101,7 @@ final class SQL2P implements Countable
     {
         $tableName = $table['name'];
         $nameCamel = $this->snakeToCamel($tableName) . 'Table';
-        $this->writer->write(
+        $this->output->write(
             <<<PHP
 
             function {$nameCamel}(): ArrayParameterInterface
@@ -109,10 +113,10 @@ final class SQL2P implements Countable
         foreach ($columns as $pos => $column) {
             $this->writeColumn($tableName, $column);
             if ($pos !== count($columns) - 1) {
-                $this->writer->write(',');
+                $this->output->write(',');
             }
         }
-        $this->writer->write(
+        $this->output->write(
             <<<PHP
 
                 );
@@ -157,7 +161,7 @@ final class SQL2P implements Countable
             }
         }
         $arguments = implode(', ', $arguments);
-        $code = match ($column['null']) {
+        $code = match ($column['null'] ?? false) {
             true => <<<PHP
             union(
                         null(),
@@ -168,7 +172,7 @@ final class SQL2P implements Countable
             {$function}({$arguments})
             PHP
         };
-        $this->writer->write(
+        $this->output->write(
             <<<PHP
 
                     {$columnName}: {$code}

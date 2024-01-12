@@ -59,6 +59,7 @@ function companyEmployeeTable(): ArrayParameterInterface
             null(),
             string(regex: "/^.{0,255}$/")
         ),
+        hours_total: float(),
         deleted_at: union(
             null(),
             int()

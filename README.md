@@ -18,7 +18,65 @@
 [![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=chevere_sql2p&metric=sqale_index)](https://sonarcloud.io/dashboard?id=chevere_sql2p)
 [![CodeFactor](https://www.codefactor.io/repository/github/chevere/sql2p/badge)](https://www.codefactor.io/repository/github/chevere/sql2p)
 
-## Quick start
+## Summary
+
+SQL2P generates [Parameters](https://chevere.org/library/parameter) for MySQL schemas.
+
+From a `CREATE TABLE` statement like this:
+
+```SQL
+CREATE TABLE `invoice` (
+  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `client_id` INT UNSIGNED NOT NULL,
+  `datetime` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `details` LONGTEXT NULL,
+  `quantity` INT UNSIGNED NOT NULL,
+  `rate` DECIMAL(10,2) NOT NULL,
+  `total` DECIMAL(19,4) GENERATED ALWAYS AS (quantity*rate),
+  PRIMARY KEY (`id`)
+ENGINE = InnoDB;
+```
+
+It generates the following PHP code:
+
+```php
+use Chevere\Parameter\Interfaces\ArrayParameterInterface;
+use function Chevere\Parameter\arrayp;
+use function Chevere\Parameter\datetime;
+use function Chevere\Parameter\float;
+use function Chevere\Parameter\int;
+use function Chevere\Parameter\null;
+use function Chevere\Parameter\string;
+use function Chevere\Parameter\union;
+
+function invoiceTable(): ArrayParameterInterface
+{
+    return arrayp(
+        id: int(min: 0),
+        client_id: int(min: 0),
+        datetime: datetime(),
+        details: union(
+            null(),
+            string()
+        ),
+        quantity: int(min: 0),
+        rate: float(),
+        total: float()
+    );
+}
+```
+
+## Installing
+
+SQL2P is available through [Packagist](https://packagist.org/packages/chevere/sql2p) and the repository source is at [chevere/sql2p](https://github.com/chevere/sql2p).
+
+```sh
+composer require chevere/sql2p
+```
+
+## Creating SQL2P
+
+Create a `SQL2P` instance by passing the SQL and a [WriterInterface](https://chevere.org/packages/writer) instance. On instance creation the SQL is parsed and the writer is used to write the generated code.
 
 ```php
 use Chevere\SQL2P\SQL2P;
@@ -26,17 +84,16 @@ use Chevere\Writer\StreamWriter;
 use function Chevere\Filesystem\fileForPath;
 use function Chevere\Writer\streamFor;
 
-$sql = fileForPath(__DIR__ . '/schema.sql')->getContents();
-$output = fileForPath(__DIR__ . '/sql2p.php');
-$output->createIfNotExists();
-$stream = streamFor($output->path()->__toString(), 'w');
-$writer = new StreamWriter($stream);
-$head = <<<PHP
-declare(strict_types=1);
-
-namespace SmartCrop\Schema;
+$schema = __DIR__ . '/schema.sql';
+$output = __DIR__ . '/sql2p.php';
+$header = <<<PHP
+namespace MyNamespace;
 PHP;
-$sql2p = new SQL2P($sql, $writer, $head);
+$sql = file_get_contents($schema);
+file_put_contents($output, '');
+$stream = streamFor($output, 'w');
+$writer = new StreamWriter($stream);
+$sql2p = new SQL2P($sql, $writer, $header);
 $count = count($sql2p);
 echo <<<PLAIN
 [{$count} tables] {$output->path()}
@@ -46,7 +103,7 @@ PLAIN;
 
 ## Documentation
 
-Documentation is available at [chevere.org](https://chevere.org/).
+Documentation is available at [chevere.org](https://chevere.org/packages/sql2p).
 
 ## License
 
