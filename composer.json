@@ -1,6 +1,6 @@
 {
-    "name": "chevere/reponame",
-    "description": "A chevere reponame package",
+    "name": "chevere/sql2p",
+    "description": "A chevere sql2p package",
     "homepage": "https://chevere.org",
     "type": "library",
     "license": "Apache-2.0",
@@ -12,19 +12,17 @@
         }
     ],
     "require": {
-        "chevere/chevere": "^3.0"
+        "chevere/sql-parser": "^0.5.0"
     },
     "require-dev": {
+        "chevere/var-dump": "^1.0",
         "phpstan/phpstan": "^1.9",
         "phpunit/phpunit": "^9.5",
         "symplify/easy-coding-standard": "^11.1"
     },
     "autoload": {
-        "files": [
-            "src/functions.php"
-        ],
         "psr-4": {
-            "Chevere\\%namespace%\\": "src/"
+            "Chevere\\SQL2P\\": "src/"
         }
     },
     "autoload-dev": {
