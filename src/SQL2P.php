@@ -75,8 +75,8 @@ final class SQL2P implements Countable
         private WriterInterface $output,
         private string $header = '',
     ) {
-        $header = str_replace('%HEADER%', $this->header, self::HEADER);
-        $this->output->write($header);
+        $patchHeader = str_replace('%HEADER%', $this->header, self::HEADER);
+        $this->output->write($patchHeader);
         $parser = new SQLParser();
         $tables = $parser->parse($sql);
         foreach ($tables as $table) {
