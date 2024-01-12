@@ -129,8 +129,10 @@ final class SQL2P implements Countable
         $arguments = [];
         $columnName = $column['name'];
         $columnType = $column['type'];
-        $function = self::TRANSLATION[$column['type']]
-            ?? throw new LogicException("Unsupported type {$columnType} for {$table}.{$columnName}");
+        $function = self::TRANSLATION[$column['type']] ?? null;
+        if ($function === null) {
+            throw new LogicException("Unsupported type {$columnType} for {$table}.{$columnName}");
+        }
         if ($columnType === 'TINYINT' && $column['length'] === '1') {
             $function = 'boolInt';
         }
