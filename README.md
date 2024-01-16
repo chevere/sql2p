@@ -32,7 +32,7 @@ SQL2P is available through [Packagist](https://packagist.org/packages/chevere/sq
 composer require chevere/sql2p
 ```
 
-## How it works?
+## What it does?
 
 From a `CREATE TABLE` statement like this one below.
 
