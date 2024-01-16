@@ -94,7 +94,7 @@ details: union(
 +quantity: int(max: 200, min: 100),
 ```
 
-The Array Parameter object returned by this function can be also used to dynamic interact with one or more of these columns.
+Array Parameter object returned by this function can be also used to dynamic interact with one or more of these columns. See [Array Composing](#array-composing) to learn more.
 
 ## Creating SQL2P
 
@@ -206,7 +206,7 @@ $invoices = arguments($iterable, $fetchAll);
 $secondRow = $invoices->required('1')->array();
 ```
 
-## Composing Array
+## Array composing
 
 Parameter provides a set of tools to work with arrays, enabling to dynamically add, remove or modify values. It also enables to compose arrays from other arrays.
 
