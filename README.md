@@ -22,7 +22,7 @@
 
 ## Summary
 
-SQL2P generates [Parameter(s)](https://chevere.org/library/parameter) for MySQL schemas. It represents database tables and its columns using the Parameter package.
+SQL2P generates [Parameter(s)](https://chevere.org/packages/parameter) for MySQL schemas. It represents database tables and its columns using the Parameter package.
 
 ## Installing
 
