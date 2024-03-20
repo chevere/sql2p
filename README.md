@@ -18,8 +18,6 @@
 [![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=chevere_sql2p&metric=sqale_index)](https://sonarcloud.io/dashboard?id=chevere_sql2p)
 [![CodeFactor](https://www.codefactor.io/repository/github/chevere/sql2p/badge)](https://www.codefactor.io/repository/github/chevere/sql2p)
 
-![SQL2P](.github/banner/sql2p-logo.svg)
-
 ## Summary
 
 SQL2P generates [Parameter(s)](https://chevere.org/packages/parameter) for MySQL schemas. It represents database tables and its columns using the Parameter package.
