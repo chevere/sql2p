@@ -12,11 +12,11 @@
         }
     ],
     "require": {
-        "chevere/sql-parser": "^0.5.0"
+        "iamcal/sql-parser": "^v0.7"
     },
     "require-dev": {
-        "chevere/var-dump": "^1.0",
-        "phpstan/phpstan": "^1.9",
+        "chevere/var-dump": "^2.0",
+        "phpstan/phpstan": "^2.1",
         "phpunit/phpunit": "^9.5",
         "symplify/easy-coding-standard": "^11.1"
     },
