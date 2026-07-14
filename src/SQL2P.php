@@ -64,6 +64,9 @@ final class SQL2P implements Countable
 
     PHP;
 
+    /**
+     * @var int<0, max>
+     */
     private int $count = 0;
 
     /**
