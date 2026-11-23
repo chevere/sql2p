@@ -16,12 +16,13 @@ namespace Chevere\Tests;
 use Chevere\SQL2P\SQL2P;
 use Chevere\Writer\StreamWriter;
 use LogicException;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use function Chevere\Writer\streamTemp;
 
 final class SQL2PTest extends TestCase
 {
-    public function dataProviderUnsupportedTypes(): array
+    public static function dataProviderUnsupportedTypes(): array
     {
         return [
             ['BINARY'],
@@ -62,16 +63,15 @@ final class SQL2PTest extends TestCase
             $writer,
             <<<PHP
             /** hello */
-            PHP,
+            PHP
+            ,
         );
         $expected = file_get_contents(__DIR__ . '/src/sql2p.php');
         $this->assertSame($expected, $writer->__toString());
         $this->assertCount(1, $sql2p);
     }
 
-    /**
-     * @dataProvider dataProviderUnsupportedTypes
-     */
+    #[DataProvider('dataProviderUnsupportedTypes')]
     public function testUnsupportedType(string $type): void
     {
         $sql = <<<MySQL
