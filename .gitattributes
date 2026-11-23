@@ -3,6 +3,7 @@
 /.github export-ignore
 /.gitignore export-ignore
 /.vscode export-ignore
+/demo export-ignore
 /infection.json.dist export-ignore
 /phpunit-coverage.xml export-ignore
 /phpunit.xml export-ignore
